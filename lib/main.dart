@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(MaterialApp(
+import 'package:instagramclone/screens/home.dart';
+import 'package:instagramclone/screens/login.dart';
+
+void main() => runApp(MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Material(
-        child: Center(
-          child: Text('Instagram'),
-        ),
-      )));
-}
+      title: 'FireSore',
+      routes: {
+        "home-page": (context) => MyHomePage(),
+        "login-page": (context) => LoginPage(),
+      },
+      home: LoginPage(),
+    ));

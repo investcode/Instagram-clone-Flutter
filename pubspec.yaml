@@ -2,13 +2,16 @@ name: instagramclone
 description: A new Flutter project.
 
 dependencies:
+  cloud_firestore: "^0.7.2"
+  firebase_core: "^0.2.3"
+  firebase_auth: "^0.5.10"
   flutter:
     sdk: flutter
 
   cupertino_icons: ^0.1.0
-
 dev_dependencies:
   flutter_test:
+
     sdk: flutter
 
 flutter:
