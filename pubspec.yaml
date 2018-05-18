@@ -5,6 +5,7 @@ dependencies:
   cloud_firestore: "^0.7.2"
   firebase_core: "^0.2.3"
   firebase_auth: "^0.5.10"
+  validator: "^0.0.7"
   flutter:
     sdk: flutter
 
