@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'package:instagramclone/widgets/bottom_nav.dart';
+
 class CaptionList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -38,7 +40,9 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // int _currentIndex;
     return Scaffold(
+      bottomNavigationBar: BottomNav(),
       appBar: AppBar(
         title: const Text('Firestore Example'),
       ),

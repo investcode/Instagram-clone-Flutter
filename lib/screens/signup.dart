@@ -3,18 +3,16 @@ import 'package:validator/validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:instagramclone/api/firebase_auth.dart';
 
-class LoginPage extends StatefulWidget {
+class SignupPage extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => _LoginPageState();
+  State<StatefulWidget> createState() => _SignupPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _SignupPageState extends State<SignupPage> {
   static final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   bool loading = false;
   String _email;
-  String _emailError = "";
   String _password;
-  String _passwordError = "";
 
   @override
   Widget build(BuildContext context) {
@@ -50,9 +48,9 @@ class _LoginPageState extends State<LoginPage> {
       bottomNavigationBar: RawMaterialButton(
         padding: const EdgeInsets.all(20.0),
         onPressed: () {
-          Navigator.of(context).pushReplacementNamed('signup-page');
+          Navigator.of(context).pushReplacementNamed('login-page');
         },
-        child: Text('Don\'t have an account ? Signup.'),
+        child: Text('Already have an account ? login.'),
       ),
     );
   }
@@ -76,10 +74,6 @@ class _LoginPageState extends State<LoginPage> {
         _email = email;
       },
       validator: (value) {
-        if (_emailError.length > 0) {
-          return _emailError;
-        }
-
         if (!isEmail(value)) {
           return 'Please enter Valid email';
         }
@@ -107,10 +101,6 @@ class _LoginPageState extends State<LoginPage> {
         _password = password;
       },
       validator: (value) {
-        if (_passwordError.length > 0) {
-          return _passwordError;
-        }
-
         if (!isLength(value, 5)) {
           return 'Please enter password logner than 5 char';
         }
@@ -128,6 +118,7 @@ class _LoginPageState extends State<LoginPage> {
         onPressed: loading
             ? null
             : () async {
+                print("pressed");
                 if (_formkey.currentState.validate()) {
                   setState(() {
                     loading = true;
@@ -136,27 +127,20 @@ class _LoginPageState extends State<LoginPage> {
                   FirebaseAuthantication firebaseAuthantication =
                       FirebaseAuthantication(
                           email: _email, password: _password);
-
-                  try {
-                    FirebaseUser firebaseUser =
-                        await firebaseAuthantication.signIn();
-                    setState(() {
-                      loading = false;
-                    });
-
-                    firebaseUser != null
-                        ? Navigator.of(context).pushNamed('home-page')
-                        // ? Navigator.of(context).pushReplacementNamed('home-page')
-                        : null;
-                  } catch (error) {}
+                  FirebaseUser firebaseUser =
+                      await firebaseAuthantication.signIn();
                   setState(() {
                     loading = false;
                   });
+                  firebaseUser.email != null
+                      ? Navigator.of(context).pushNamed('home-page')
+                      // ? Navigator.of(context).pushReplacementNamed('home-page')
+                      : null;
                 }
               },
         child: !loading
             ? Text(
-                'Login',
+                'Signup',
                 style: TextStyle(fontSize: 16.0, color: Colors.blue),
               )
             : CircularProgressIndicator(),
