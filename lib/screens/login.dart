@@ -118,6 +118,7 @@ class _LoginPageState extends State<LoginPage> {
         onPressed: loading
             ? null
             : () async {
+                print("pressed");
                 if (_formkey.currentState.validate()) {
                   setState(() {
                     loading = true;
@@ -132,7 +133,7 @@ class _LoginPageState extends State<LoginPage> {
                     loading = false;
                   });
                   firebaseUser.email != null
-                      ? Navigator.of(context).pushNamed('home-page')
+                      ? Navigator.of(context).pushReplacementNamed('home-page')
                       : null;
                 }
               },
