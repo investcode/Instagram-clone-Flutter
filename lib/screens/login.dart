@@ -10,12 +10,14 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   static final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
+  bool loading = false;
   String _email;
   String _password;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0.0,
@@ -28,11 +30,12 @@ class _LoginPageState extends State<LoginPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text(
-                'Instagram',
-                style: TextStyle(fontSize: 50.0, fontWeight: FontWeight.bold),
+              Image.asset(
+                'assets/logo.png',
+                fit: BoxFit.cover,
+                height: 60.0,
               ),
-              Padding(padding: new EdgeInsets.only(bottom: 20.0)),
+              Padding(padding: new EdgeInsets.only(bottom: 16.0)),
               _emailField(),
               Padding(padding: new EdgeInsets.only(bottom: 16.0)),
               _passwordField(),
@@ -112,19 +115,33 @@ class _LoginPageState extends State<LoginPage> {
       height: 60.0,
       child: OutlineButton(
         borderSide: BorderSide(style: BorderStyle.solid, color: Colors.blue),
-        onPressed: () async {
-          if (_formkey.currentState.validate()) {
-            _formkey.currentState.save();
-            FirebaseAuthantication firebaseAuthantication =
-                FirebaseAuthantication(email: _email, password: _password);
-            FirebaseUser firebaseUser = await firebaseAuthantication.signUp();
-            print(firebaseUser);
-          }
-        },
-        child: Text(
-          'Login',
-          style: TextStyle(fontSize: 16.0, color: Colors.blue),
-        ),
+        onPressed: loading
+            ? null
+            : () async {
+                if (_formkey.currentState.validate()) {
+                  setState(() {
+                    loading = true;
+                  });
+                  _formkey.currentState.save();
+                  FirebaseAuthantication firebaseAuthantication =
+                      FirebaseAuthantication(
+                          email: _email, password: _password);
+                  FirebaseUser firebaseUser =
+                      await firebaseAuthantication.signIn();
+                  setState(() {
+                    loading = false;
+                  });
+                  firebaseUser.email != null
+                      ? Navigator.of(context).pushNamed('home-page')
+                      : null;
+                }
+              },
+        child: !loading
+            ? Text(
+                'Login',
+                style: TextStyle(fontSize: 16.0, color: Colors.blue),
+              )
+            : CircularProgressIndicator(),
       ),
     );
   }

@@ -15,6 +15,7 @@ class FirebaseAuthantication {
   Future<FirebaseUser> signUp() async {
     FirebaseUser user = await _auth.createUserWithEmailAndPassword(
         email: email, password: password);
+    print(user);
     return user;
   }
 
